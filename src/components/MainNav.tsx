@@ -22,7 +22,7 @@ export default function SimpleBottomNavigation() {
     } else if (value === 3) {
       navigate("/search");
     }
-  }, [value]);
+  }, [value, navigate]);
 
   return (
     <Box
