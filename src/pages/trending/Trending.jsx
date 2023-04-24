@@ -2,25 +2,28 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import SingleContent from "../../components/SingleContent/SingleContent";
 import "./Trending.css";
+import Pagination from "../../components/Pagination/Pagination";
 
 const Trending = () => {
   const apiKey = process.env.REACT_APP_API_KEY; // Access the environment variable
   const [content, setContent] = useState("");
+  const [page, setPage] = useState(1);
 
   const fetchTrending = async () => {
     try {
       const { data } = await axios.get(
-        `https://api.themoviedb.org/3/trending/all/week?api_key=${apiKey}`
+        `https://api.themoviedb.org/3/trending/all/week?api_key=${apiKey}&page=${page}`
       );
       // console.log(data);
       setContent(data.results); // Update to use data.results
     } catch (error) {
       console.error("Failed to fetch trending movies:", error);
+      console.error("page no" + Number(page));
     }
   };
   useEffect(() => {
     fetchTrending();
-  }, []);
+  }, [page]);
   return (
     <>
       <div className="trending">
@@ -37,6 +40,7 @@ const Trending = () => {
             />
           ))}
       </div>
+      <Pagination setPage={setPage} />
     </>
   );
 };
